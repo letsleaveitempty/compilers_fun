@@ -11,28 +11,28 @@ My goal from the very beginning was to understand programming languages deeper b
 -  Rubinius will be my base tool, what means that I will be using Ruby as a language to create all the files. Writing this kind of code is definitely a completely different experience than creating web applications and will help me to write better code.
 -  writing tutorial through all the steps and blog posts with theory that might be helpful for other people like me, who are still beginning with programming and want to learn more, but find it difficult to find source of knowledge that fits their level. By writing this down I would also learn myself more and got the knowledge more structured.
 
-<br>
 1. 1st week:
   1. JavaScript learning through online tutorials
-  2. getting to know the theory of how the process of implementing a     language looks like
-and understanding core concepts
-  - I will be comfortable with JS code and familiar with its syntax
-  - The big picture of the process will give me a base to go deeper
+  2. getting to know the theory of how the process of implementing a language looks like
+  and understanding core concepts
+    - I will be comfortable with JS code and familiar with its syntax
+    - The big picture of the process will give me a base to go deeper
 2. 2nd week:
   1. writing a parser that transforms JS code to AST tree based on only addition operation
-(eg: “2+3;”)
+  (eg: “2+3;”)
   2. more knowledge by practice about parsers, parsing itself and data structure
-  - The basic parser will be ready
-  - I will understand how programming methods are being called and structured
+    - The basic parser will be ready
+    - I will understand how programming methods are being called and structured
 3. 3rd week:
   1. writing a compiler that transforms AST tree to byte code
   1. stack vs register based model theory
-  - The basic compiler will be ready
-  -  I will have understanding of breaking the code into little parts     and how does it have to be structured to be executed.
+    - The basic compiler will be ready
+    -  I will have understanding of breaking the code into little parts and how does it have to be structured to be executed.
 4. 4th week:
   1. theory behind Virtual Machine that executes code
   2. splitting bytecode into binary code
-➜ Knowledge about smallest parts of code that it can be split to (binaries) ➜ Understanding how all programming languages have the same base
+  - Knowledge about smallest parts of code that it can be split to (binaries)
+  - Understanding how all programming   languages have the same base
 5. 6th - 9th week:
   1. working on more complex JS math and string operations
   2. local variables, objects, functions and closures
