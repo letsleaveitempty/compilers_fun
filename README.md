@@ -31,10 +31,10 @@ My goal from the very beginning was to understand programming languages deeper b
 4. 4th week:
   1. theory behind Virtual Machine that executes code
   2. splitting bytecode into binary code
-  - Knowledge about smallest parts of code that it can be split to (binaries)
-  - Understanding how all programming   languages have the same base
+    - Knowledge about smallest parts of code that it can be split to (binaries)
+    - Understanding how all programming   languages have the same base
 5. 6th - 9th week:
   1. working on more complex JS math and string operations
   2. local variables, objects, functions and closures
-  -  Getting to this point, even if it will not be fully functional JS implementation, will be a great learning success.
-  - Finishing up the tutorial
+    -  Getting to this point, even if it will not be fully functional JS implementation, will be a great learning success.
+    - Finishing up the tutorial
