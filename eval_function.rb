@@ -6,5 +6,7 @@ def eval(ast)
   end
 end
 
-my_ast = ["+", ["+", 4, 5], 6]
+my_ast = ["+", ["+", 4, 10], 6]
 puts eval(my_ast)
+
+4 + 5 + 6
