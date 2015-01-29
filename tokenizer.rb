@@ -61,20 +61,8 @@ def assign_class(string)
   end
 end
 
-# def assign_token(string)
-#   case string
-#   when /\s/
-#     "< whitespace >"
-#   when /[+]/
-#     "< symbol, #{string} >"
-#   when /[0-9]*/
-#     "< number, #{string} >"
-#   end
-# end
 
 string = "1 +2"
-#
+
+puts string
 tokenize(string)
-#
-# a = Whitespace.new('abc')
-# puts a.print_token

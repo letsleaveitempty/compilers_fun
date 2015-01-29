@@ -1,34 +1,3 @@
-# addition:
-#   1 + 2
-#   1 + 2 + 3
-#
-# substraction:
-#   2 - 1
-#   5 - 2 - 1
-#
-# multiplication:
-#   1 * 2
-#   2 * 3 * 4
-#
-# factorial:
-#   4!
-#
-# division:
-#   2 / 1
-#   12 / 3 / 2
-#
-# parethesis:
-#   2 * ( 5 - 7 )
-#   (2 *  5) - 7
-#
-# if statements:
-#   if true
-#     ....
-#   else
-#     ....
-#   end
-
-
 class AstTree
 end
 
