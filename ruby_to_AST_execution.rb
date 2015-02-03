@@ -1,67 +1,21 @@
-# number     ::= '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
-# expression ::= number + expression | number;
-
-
-other_token = lexer.next_token
-
-case other_token
-when nil
-  return ast
-when Token::Plus
-  the_sum = sum
-  retrun AST::Operand....
-else
-  raise "error"
-end
-
-
-
-class Lexer
-  def initialize(string)
-  end
-
-  def next_token
-
-  end
-end
-
-class Parser
-  attr_reader :lexer
-
-  def initialize(string)
-    self.lexer = Lexer.new(string)
-  end
-
-  def parse
-    token = lexer.next_token
-
-    case token
-    when Number
-      return Number
-    when Plus
-      Number + token
-    else
-      raise "errrrrorrrrr"
-    end
-    # return ast
-  end
-end
-
-
-
-
-#####################################
-### tokenizer #######################
-#####################################
+# number ::= '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
+# sum    ::= number + sum | number;
 
 class Token
 end
 
-class Number < Token
+class AST
+end
+
+class Token::Number
   attr_reader :value
 
   def initialize(value)
     @value = value
+  end
+
+  def to_s
+    value
   end
 
   def print_token
@@ -69,11 +23,15 @@ class Number < Token
   end
 end
 
-class Operator < Token
+class Token::Plus
   attr_reader :value
 
   def initialize(value)
     @value = value
+  end
+
+  def to_s
+    value
   end
 
   def print_token
@@ -81,36 +39,7 @@ class Operator < Token
   end
 end
 
-def tokenize(string)
-  elements = string.scan(/./)
-
-  elements.map! { |el| assign_class(el) }
-  elements.compact!
-  elements.each { |el| el.print_token   }
-end
-
-def assign_class(string)
-  case string
-  when /\s/
-    nil # not caring about whitespaces for now
-  when /[+]/
-    Operator.new(string)
-  when /[0-9]*/
-    Number.new(string)
-  end
-end
-
-#####################################
-### compilation engine ##############
-#####################################
-
-# number     ::= '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
-# expression ::= number + expression | number;
-
-class AstTree
-end
-
-class AstNumber < AstTree
+class AST::Number
   attr_reader :value
 
   def initialize(value)
@@ -126,7 +55,7 @@ class AstNumber < AstTree
   end
 end
 
-class AstOperator < AstTree
+class AST::Operand
   attr_reader :operator, :operands
 
   def initialize(operator, operands)
@@ -134,9 +63,8 @@ class AstOperator < AstTree
     @operands = operands
   end
 
-  def string_representation
-    puts operator
-    puts operands
+  def to_s
+    "(#{operator} #{operands[0]} #{operands[1]})"
   end
 
   def execute
@@ -144,45 +72,130 @@ class AstOperator < AstTree
   end
 end
 
-def tokens_to_ast(tokens)
-  tokens.map! { |t| assign_ast_class(t) }
+class Lexer
+  attr_reader :input_string
+
+  def initialize(input_string)
+    @input_string = input_string
+    get_elements(input_string)
+  end
+
+  def get_elements(input_string)
+    elements = input_string.scan(/./)
+
+    elements.map! { |el| assign_class(el) }
+    elements.compact!
+    @elements = elements
+  end
+
+  def assign_class(string)
+    case string
+    when /\s/
+      nil # not caring about whitespaces for now
+    when /[+]/
+      Token::Plus.new(string)
+    when /[0-9]*/
+      Token::Number.new(string)
+    end
+  end
+
+  def next_token
+    @elements.delete_at(0)
   end
 end
 
-def assign_ast_class(token)
-  case token.class
-  when Number
-    AstNumber.new(token.value)
-  when Operator
-    AstOperator.new(token.value)
+class Parser
+  attr_accessor :lexer
+
+  def initialize(input_string)
+    self.lexer = Lexer.new(input_string)
+  end
+
+  def parse
+    sum
+  end
+
+  def sum
+    token = lexer.next_token
+    case token
+    when Token::Number
+      ast = AST::Number.new(token.value)
+    else
+      raise "Expected a number (0-9)"
+    end
+
+    other_token = lexer.next_token
+    case other_token
+    when nil
+      return ast
+    when Token::Plus
+      the_sum = sum
+      return AST::Operand.new('+', [AST::Number.new(token.value), the_sum])
+    else
+      raise "Expected a 'plus' operator (+)"
+    end
   end
 end
 
+describe Lexer do
+  it 'lexes numbers' do
+    expect(Lexer.new('3').next_token).to be_a(Token::Number)
+    expect(Lexer.new('3').next_token.to_s).to eq('3')
+  end
 
+  it 'lexes +' do
+    expect(Lexer.new('+').next_token).to be_a(Token::Plus)
+    expect(Lexer.new('+').next_token.to_s).to eq('+')
+  end
 
-#####################################
-### execution #######################
-#####################################
+  it 'detects the end of the input' do
+    lexer = Lexer.new('1')
 
-def string_to_exec(string)
-  puts string
-  puts "\n\n"
-  tokens = tokenize(string)
-  puts "\n\n"
-  puts tokens
-  puts "\n\n"
-  puts tokens_to_ast(tokens)
-  puts "\n\n"
+    token = lexer.next_token
+    expect(token).to be_a(Token::Number)
+
+    token = lexer.next_token
+    expect(token).to eq(nil)
+  end
+
+  it 'lexes multiple tokens' do
+    lexer = Lexer.new('1+2')
+
+    token = lexer.next_token
+    expect(token).to be_a(Token::Number)
+    expect(token.to_s).to eq('1')
+
+    token = lexer.next_token
+    expect(token).to be_a(Token::Plus)
+    expect(token.to_s).to eq('+')
+
+    token = lexer.next_token
+    expect(token).to be_a(Token::Number)
+    expect(token.to_s).to eq('2')
+
+    token = lexer.next_token
+    expect(token).to eq(nil)
+  end
+
+  it 'ignores whitespace' do
+    lexer = Lexer.new(' 1')
+
+    token = lexer.next_token
+    expect(token).to be_a(Token::Number)
+    expect(token.to_s).to eq('1')
+  end
 end
 
-# 1 + 2
-# ast = AstOperator.new("+", [AstNumber.new("1"), AstNumber.new("2")])
-# 1 + (2 + 7)
-# ast = AstOperator.new("+", [AstNumber.new("1"), AstOperator.new("+", [AstNumber.new("2"), AstNumber.new("7")])])
-# puts ast.string_representation
-# puts ast.execute
+describe Parser do
+  it 'parses numbers' do
+    expect(Parser.new('3').parse.to_s).to eq('3')
+  end
 
+  it 'parses simple sums' do
+    expect(Parser.new('3 + 5').parse.to_s).to eq('(+ 3 5)')
+  end
 
-string = "3+  2"
-
-string_to_exec(string)
+  it 'parses nested sums' do
+    expect(Parser.new('3 + 5 + 7').parse.to_s).to eq('(+ 3 (+ 5 7))')
+  end
+end
