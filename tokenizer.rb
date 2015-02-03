@@ -27,7 +27,8 @@ class Whitespace < Token
   end
 
   def print_token
-    print "<whitespace>"
+    nil
+    # print "<whitespace>"
   end
 end
 
@@ -62,7 +63,7 @@ def assign_class(string)
 end
 
 
-string = "1 +2"
+string = "3+  2"
 
 puts string
 tokenize(string)

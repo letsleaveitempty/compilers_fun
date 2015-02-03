@@ -37,9 +37,9 @@ end
  # ast = Operator.new("+", [Operator.new("+", [Number.new("3"), Number.new("2")]), Number.new("5")])
 
 # 1 + (2 + 7)
-# ast = Operator.new("+", [Number.new("1"), Operator.new("+", [Number.new("2"), Number.new("7")])])
+ast = Operator.new("+", [Number.new("1"), Operator.new("+", [Number.new("2"), Number.new("7")])])
 
 # (((1 + (3 + 2)) + 5) + 2) + 5 + (2 + (1+2))
-ast = Operator.new("+", [Operator.new("+", [Operator.new("+", [Operator.new("+", [Number.new("1"), Operator.new("+", [Operator.new("+", [Number.new("3"), Number.new("2")]), Number.new("5")])]), Number.new("2")]), Number.new("5")]), Operator.new("+", [Number.new("2"), Operator.new("+", [Number.new("1"), Number.new("2")])])])
+# ast = Operator.new("+", [Operator.new("+", [Operator.new("+", [Operator.new("+", [Number.new("1"), Operator.new("+", [Operator.new("+", [Number.new("3"), Number.new("2")]), Number.new("5")])]), Number.new("2")]), Number.new("5")]), Operator.new("+", [Number.new("2"), Operator.new("+", [Number.new("1"), Number.new("2")])])])
 
 puts ast.execute
