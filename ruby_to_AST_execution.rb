@@ -1,5 +1,6 @@
 # number ::= '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
 # sum    ::= number + sum | number;
+# next to do: multiplication
 
 class Token
 end
@@ -148,6 +149,11 @@ describe Lexer do
     expect(Lexer.new('+').next_token.to_s).to eq('+')
   end
 
+  it 'lexes *' do
+    expect(Lexer.new('*').next_token).to be_a(Token::Asterisk)
+    expect(Lexer.new('*').next_token.to_s).to eq('*')
+  end
+
   it 'detects the end of the input' do
     lexer = Lexer.new('1')
 
@@ -158,8 +164,8 @@ describe Lexer do
     expect(token).to eq(nil)
   end
 
-  it 'lexes multiple tokens' do
-    lexer = Lexer.new('1+2')
+  it 'lexes multiple tokens in right order' do
+    lexer = Lexer.new('1+2*3')
 
     token = lexer.next_token
     expect(token).to be_a(Token::Number)
@@ -172,6 +178,14 @@ describe Lexer do
     token = lexer.next_token
     expect(token).to be_a(Token::Number)
     expect(token.to_s).to eq('2')
+
+    token = lexer.next_token
+    expect(token).to be_a(Token::Asterisk)
+    expect(token.to_s).to eq('*')
+
+    token = lexer.next_token
+    expect(token).to be_a(Token::Number)
+    expect(token.to_s).to eq('3')
 
     token = lexer.next_token
     expect(token).to eq(nil)
@@ -195,7 +209,26 @@ describe Parser do
     expect(Parser.new('3 + 5').parse.to_s).to eq('(+ 3 5)')
   end
 
+  it 'parses simple multiplication' do
+    expect(Parser.new('3 * 5').parse.to_s).to eq('(* 3 5)')
+  end
+
   it 'parses nested sums' do
     expect(Parser.new('3 + 5 + 7').parse.to_s).to eq('(+ 3 (+ 5 7))')
+  end
+
+  it 'parses nested operations of two kinds' do
+    expect(Parser.new('1 + 5 * 2').parse.to_s).to eq('(+ 1 (* 5 2))')
+  end
+
+  it 'parses nested operations of two kinds' do
+    expect(Parser.new('1 * 5 + 2').parse.to_s).to eq('(+ 2 (* 1 5))')
+  end
+end
+
+describe 'AST node#execution' do
+  it 'executes a parsed string' do
+    expect(Parser.new('1 + 5 * 2').parse.execute).to eq(11)
+    expect(Parser.new('1 * 5 + 2').parse.execute).to eq(7)
   end
 end
