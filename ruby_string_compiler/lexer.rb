@@ -16,18 +16,24 @@ class Lexer
     @elements = elements
   end
 
-  def assign_class(string)
-    case string
+  def assign_class(element)
+    case element
     when /\s/
-      nil # not caring about whitespaces for now
+      nil
     when /[+]/
-      Token::Plus.new(string)
+      Token::Plus.new(element)
+    when /[*]/
+      Token::Asterisk.new(element)
     when /[0-9]*/
-      Token::Number.new(string)
+      Token::Number.new(element)
     end
   end
 
   def next_token
     @elements.delete_at(0)
+  end
+
+  def print_tokens
+    @elements.each { |el| puts "#{el.class}, #{el.value}" }
   end
 end

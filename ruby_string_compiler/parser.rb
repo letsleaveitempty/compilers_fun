@@ -10,10 +10,10 @@ class Parser
   end
 
   def parse
-    sum
+    check_next_token
   end
 
-  def sum
+  def check_next_token
     token = lexer.next_token
     case token
     when Token::Number
@@ -27,8 +27,11 @@ class Parser
     when nil
       return ast
     when Token::Plus
-      the_sum = sum
+      the_sum = check_next_token
       return AST::Operand.new('+', [AST::Number.new(token.value), the_sum])
+    when Token::Asterisk
+      the_product = check_next_token
+      return AST::Operand.new('*', [AST::Number.new(token.value), the_product])
     else
       raise "Expected a 'plus' operator (+)"
     end
