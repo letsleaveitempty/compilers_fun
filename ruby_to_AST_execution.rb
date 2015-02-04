@@ -1,6 +1,9 @@
 # number ::= '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
 # sum    ::= number + sum | number;
 # next to do: multiplication
+#
+# number ::= '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
+# expression
 
 class Token
 end
@@ -221,7 +224,7 @@ describe Parser do
     expect(Parser.new('1 + 5 * 2').parse.to_s).to eq('(+ 1 (* 5 2))')
   end
 
-  it 'parses nested operations of two kinds' do
+  it 'parses nested operations and distinguish multiplication' do
     expect(Parser.new('1 * 5 + 2').parse.to_s).to eq('(+ 2 (* 1 5))')
   end
 end
