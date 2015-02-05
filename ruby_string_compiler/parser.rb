@@ -33,7 +33,7 @@ class Parser
       the_product = check_next_token
       return AST::Operand.new('*', [AST::Number.new(token.value), the_product])
     else
-      raise "Expected a 'plus' operator (+)"
+      raise "Operator not allowed"
     end
   end
 end
