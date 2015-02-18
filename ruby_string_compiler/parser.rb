@@ -10,28 +10,34 @@ class Parser
   end
 
   def parse
-    check_next_token
+    first_token = lexer.token
+    check_token(first_token)
   end
 
-  def check_next_token
-    token = lexer.next_token
+  def check_token(token)
     case token
     when Token::Number
-      ast = AST::Number.new(token.value)
+      @ast = AST::Number.new(token.value)
+      @token = token
+      check_next_token
     else
       raise "Expected a number (0-9)"
     end
+  end
 
+  def check_next_token
     other_token = lexer.next_token
     case other_token
     when nil
-      return ast
+      return @ast
     when Token::Plus
       the_sum = check_next_token
-      return AST::Operand.new('+', [AST::Number.new(token.value), the_sum])
+      return AST::Operand.new('+', [AST::Number.new(@token.value), the_sum])
     when Token::Asterisk
       the_product = check_next_token
-      return AST::Operand.new('*', [AST::Number.new(token.value), the_product])
+      return AST::Operand.new('*', [AST::Number.new(@token.value), the_product])
+    when Token::Number
+      check_token(other_token)
     else
       raise "Operator not allowed"
     end

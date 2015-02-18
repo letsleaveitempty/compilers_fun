@@ -14,6 +14,7 @@ class Lexer
     elements.map! { |el| assign_class(el) }
     elements.compact!
     @elements = elements
+    @position = 0
   end
 
   def assign_class(element)
@@ -29,8 +30,13 @@ class Lexer
     end
   end
 
+  def token
+    @elements[@position]
+  end
+
   def next_token
-    @elements.delete_at(0)
+    @position += 1
+    token
   end
 
   def print_tokens

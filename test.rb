@@ -11,7 +11,6 @@ class Lexer
 
   def next_token
     @position += 1
-    puts "#{@position} position"
     token
   end
 end
@@ -19,6 +18,8 @@ end
 a = Lexer.new()
 
 puts a.token
+puts a.token
 puts a.next_token
+puts a.token
 puts a.next_token
 puts a.next_token
