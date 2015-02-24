@@ -1,10 +1,13 @@
 require_relative 'parser'
 
-string = File.read(ARGV[0])
+# string = File.read(ARGV[0])
+puts "Enter your math operation:"
+string = gets
 
 lexer = Lexer.new(string)
 
-puts "\nString:"
+puts "\n*************************************\n"
+puts "\nMath operation:"
 puts string
 
 puts "\nTokens and its values:"
