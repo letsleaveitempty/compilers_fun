@@ -5,6 +5,7 @@ class Lexer
 
   def initialize(input_string)
     @input_string = input_string
+    @position     = 0
     get_elements(input_string)
   end
 
@@ -14,7 +15,6 @@ class Lexer
     elements.map! { |el| assign_class(el) }
     elements.compact!
     @elements = elements
-    @position = 0
   end
 
   def assign_class(element)
