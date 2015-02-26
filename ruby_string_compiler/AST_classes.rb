@@ -17,36 +17,6 @@ class AST::Number
   end
 end
 
-# class AST::Operator
-#
-#   attr_reader :operands
-#
-#   def initialize(operands)
-#     @operands = operands
-#   end
-#
-#   def to_s
-#     "(#{self.operator} #{operands[0]} #{operands[1]})"
-#   end
-# end
-#
-# class AST::Addition < AST::Operator
-#   operator = "+"
-#
-#   def execute
-#     operands[0].execute + operands[1].execute
-#   end
-# end
-#
-# class AST::Multiplication < AST::Operator
-#
-#   operator = "*"
-#
-#   def execute
-#     operands[0].execute * operands[1].execute
-#   end
-# end
-
 class AST::Addition
   attr_reader :operands
 
@@ -78,9 +48,3 @@ class AST::Multiplication
     operands[0] * operands[1]
   end
 end
-
-# a = AST::Multiplication.new([2, 4])
-# puts a
-# puts a.class
-# puts a.to_s
-# puts a.execute

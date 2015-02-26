@@ -54,5 +54,6 @@ class Parser
   end
 end
 
-p = Parser.new("1+3")
+puts "Enter expression:\n"
+p = Parser.new(gets)
 puts p.parse

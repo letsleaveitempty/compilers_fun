@@ -3,24 +3,24 @@ require_relative 'parser'
 
 describe Lexer do
   it 'lexes numbers' do
-    expect(Lexer.new('3').next_token).to be_a(Token::Number)
-    expect(Lexer.new('3').next_token.to_s).to eq('3')
+    expect(Lexer.new('3').token).to be_a(Token::Number)
+    expect(Lexer.new('3').token.to_s).to eq('3')
   end
 
   it 'lexes +' do
-    expect(Lexer.new('+').next_token).to be_a(Token::Plus)
-    expect(Lexer.new('+').next_token.to_s).to eq('+')
+    expect(Lexer.new('+').token).to be_a(Token::Plus)
+    expect(Lexer.new('+').token.to_s).to eq('+')
   end
 
   it 'lexes *' do
-    expect(Lexer.new('*').next_token).to be_a(Token::Asterisk)
-    expect(Lexer.new('*').next_token.to_s).to eq('*')
+    expect(Lexer.new('*').token).to be_a(Token::Asterisk)
+    expect(Lexer.new('*').token.to_s).to eq('*')
   end
 
   it 'detects the end of the input' do
     lexer = Lexer.new('1')
 
-    token = lexer.next_token
+    token = lexer.token
     expect(token).to be_a(Token::Number)
 
     token = lexer.next_token
@@ -30,7 +30,7 @@ describe Lexer do
   it 'lexes multiple tokens in right order' do
     lexer = Lexer.new('1+2*3')
 
-    token = lexer.next_token
+    token = lexer.token
     expect(token).to be_a(Token::Number)
     expect(token.to_s).to eq('1')
 
@@ -57,7 +57,7 @@ describe Lexer do
   it 'ignores whitespace' do
     lexer = Lexer.new(' 1')
 
-    token = lexer.next_token
+    token = lexer.token
     expect(token).to be_a(Token::Number)
     expect(token.to_s).to eq('1')
   end

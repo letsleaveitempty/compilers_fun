@@ -13,20 +13,11 @@ puts string
 puts "\nTokens and its values:"
 lexer.print_tokens
 
-puts "\nTokens and next tokens:"
-puts lexer.token.class
-puts lexer.next_token.class
-puts lexer.token.class
-puts lexer.next_token.class
-puts lexer.token.class
-puts lexer.next_token.class
-puts lexer.token.class
-
 puts "\nAST classes representation:"
 puts Parser.new(string).parse.inspect
 
-# puts "\nAST string representation:"
-# puts Parser.new(string).parse
-#
-# puts "\nExecution (result):"
-# puts Parser.new(string).parse.execute
+puts "\nAST string representation:"
+puts Parser.new(string).parse
+
+puts "\nExecution (result):"
+puts Parser.new(string).parse.execute
