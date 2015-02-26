@@ -6,63 +6,53 @@ class Parser
   attr_accessor :lexer
 
   def initialize(input_string)
-    self.lexer = Lexer.new(input_string)
+    self.lexer  = Lexer.new(input_string)
+    @token      = lexer.token
+    @next_token = lexer.next_token
   end
 
   def parse
-    @token = lexer.token
-    sum
+    # expression
+    if @next_token.nil?
+      number
+    else
+      expression
+    end
   end
 
-  def sum
-    puts "lalalallal"
-    puts @token.class
+  def expression
+    operand1 = number
+
+    case @next_token
+    when Token::Asterisk
+      move_one_token_forward
+      operand2 = number
+      result = AST::Multiplication.new([operand1, operand2])
+    when Token::Plus
+      move_one_token_forward
+      operand2 = expression
+      result   = AST::Addition.new([operand1, operand2])
+    end
+
+    result
+  end
+
+  def number
     case @token
     when Token::Number
-      ast = AST::Number.new(@token.value)
+      value = AST::Number.new(@token.value)
     else
-      raise "Expected a number (0-9)"
+      raise "Not a number."
     end
 
-    other_token = lexer.next_token
-    case other_token
-    when nil
-      return ast
-    when Token::Plus
-      the_sum = sum
-      return AST::Operand.new('+', [AST::Number.new(@token.value), the_sum])
-    else
-      raise "Expected a 'plus' operator (+)"
-    end
-    @token = other_token
+    value
   end
 
-  # def check_token(token)
-  #   case token
-  #   when Token::Number
-  #     @ast = AST::Number.new(token.value)
-  #     @token = token
-  #     check_next_token
-  #   else
-  #     raise "Expected a number (0-9)"
-  #   end
-  # end
-  #
-  # def check_next_token
-  #   other_token = lexer.next_token
-  #   case other_token
-  #   when nil
-  #     return @ast
-  #   when Token::Plus
-  #     the_sum = check_next_token
-  #     return AST::Operand.new('+', [AST::Number.new(@token.value), the_sum])
-  #   when Token::Asterisk
-  #     the_product = check_next_token
-  #     return AST::Operand.new('*', [AST::Number.new(@token.value), the_product])
-  #   when Token::Number
-  #     check_token(other_token)
-  #   else
-  #     raise "Operator not allowed"
-  #   end
-  # end
+  def move_one_token_forward
+    @token      = lexer.next_token
+    @next_token = lexer.next_token
+  end
 end
+
+p = Parser.new("1+3")
+puts p.parse
