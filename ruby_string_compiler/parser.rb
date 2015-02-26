@@ -1,6 +1,7 @@
 require_relative 'token_classes'
 require_relative 'AST_classes'
 require_relative 'lexer'
+require 'pry'
 
 class Parser
   attr_accessor :lexer
@@ -21,11 +22,11 @@ class Parser
     while @next_token
       case @next_token
       when Token::Asterisk
-        move_one_token_forward
+        move_two_tokens_forward
         operand2 = number
         current_result= AST::Multiplication.new([current_result, operand2])
       when Token::Plus
-        move_one_token_forward
+        move_two_tokens_forward
         operand2 = expression
         current_result = AST::Addition.new([current_result, operand2])
       when Token::RParen
@@ -39,9 +40,9 @@ class Parser
   def number
     case @token
     when Token::LParen
-      move_parenthesis
+      move_paren
       value = expression
-      move_parenthesis
+      move_paren
     when Token::Number
       value = AST::Number.new(@token.value)
     else
@@ -51,12 +52,12 @@ class Parser
     value
   end
 
-  def move_parenthesis
+  def move_paren
     @token = @next_token
     @next_token = lexer.next_token
   end
 
-  def move_one_token_forward
+  def move_two_tokens_forward
     @token      = lexer.next_token
     @next_token = lexer.next_token
   end
