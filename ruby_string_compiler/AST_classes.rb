@@ -29,7 +29,7 @@ class AST::Addition
   end
 
   def execute
-    operands[0] + operands[1]
+    operands[0].execute + operands[1].execute
   end
 end
 
@@ -45,6 +45,6 @@ class AST::Multiplication
   end
 
   def execute
-    operands[0] * operands[1]
+    operands[0].execute * operands[1].execute
   end
 end

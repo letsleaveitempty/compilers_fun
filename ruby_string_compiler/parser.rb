@@ -12,31 +12,26 @@ class Parser
   end
 
   def parse
-    # expression
-    if @next_token.nil?
-      number
-    else
-      expression
-    end
+    expression
   end
 
   def expression
-    operand1 = number
+    current_result = number
 
-    case @next_token
-    when Token::Asterisk
-      move_one_token_forward
-      operand2 = number
-      result   = AST::Multiplication.new([operand1, operand2])
-    when Token::Plus
-      move_one_token_forward
-      operand2 = expression
-      result   = AST::Addition.new([operand1, operand2])
-    when nil
-      result   = operand1
+    while @next_token
+      case @next_token
+      when Token::Asterisk
+        move_one_token_forward
+        operand2 = number
+        current_result= AST::Multiplication.new([current_result, operand2])
+      when Token::Plus
+        move_one_token_forward
+        operand2 = expression
+        current_result = AST::Addition.new([current_result, operand2])
+      end
     end
 
-    result
+    current_result
   end
 
   def number
@@ -55,3 +50,7 @@ class Parser
     @next_token = lexer.next_token
   end
 end
+# 
+# puts "Enter expression:\n"
+# p = Parser.new(gets)
+# puts p.parse

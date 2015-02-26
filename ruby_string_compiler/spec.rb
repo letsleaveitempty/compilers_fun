@@ -85,7 +85,7 @@ describe Parser do
   end
 
   it 'parses nested operations of two kinds' do
-    expect(Parser.new('1 * 5 + 2').parse.to_s).to eq('(+ 2 (* 1 5))')
+    expect(Parser.new('1 * 5 + 2').parse.to_s).to eq('(+ (* 1 5) 2)')
   end
 end
 
