@@ -25,6 +25,10 @@ class Lexer
       Token::Plus.new(element)
     when /[*]/
       Token::Asterisk.new(element)
+    when /[\(]/
+      Token::LParen.new(element)
+    when /[\)]/
+      Token::RParen.new(element)
     when /[0-9]*/
       Token::Number.new(element)
     end

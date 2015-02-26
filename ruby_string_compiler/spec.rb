@@ -17,6 +17,11 @@ describe Lexer do
     expect(Lexer.new('*').token.to_s).to eq('*')
   end
 
+  it 'lexes parenthesis' do
+    expect(Lexer.new('(').token).to be_a(Token::LParen)
+    expect(Lexer.new(')').token).to be_a(Token::RParen)
+  end
+
   it 'detects the end of the input' do
     lexer = Lexer.new('1')
 
@@ -87,11 +92,20 @@ describe Parser do
   it 'parses nested operations of two kinds' do
     expect(Parser.new('1 * 5 + 2').parse.to_s).to eq('(+ (* 1 5) 2)')
   end
+
+  it 'parses nested operations with braces' do
+    expect(Parser.new('1 * (5 + 2)').parse.to_s).to     eq('(* 1 (+ 5 2))')
+    expect(Parser.new('4 * (5 + 2) + 3').parse.to_s).to eq('(+ (* 4 (+ 5 2)) 3)')
+    expect(Parser.new('2 * (5 + 1) * 3').parse.to_s).to eq('(* (* 2 (+ 5 1)) 3)')
+  end
 end
 
 describe 'AST node#execution' do
   it 'executes a parsed string' do
-    expect(Parser.new('1 + 5 * 2').parse.execute).to eq(11)
-    expect(Parser.new('1 * 5 + 2').parse.execute).to eq(7)
+    expect(Parser.new('1 + 5 * 2').parse.execute).to       eq(11)
+    expect(Parser.new('1 * 5 + 2').parse.execute).to       eq(7)
+    expect(Parser.new('2 * (5 + 2)').parse.execute).to     eq(14)
+    expect(Parser.new('4 * (5 + 2) + 3').parse.execute).to eq(31)
+    expect(Parser.new('2 * (5 + 1) * 3').parse.execute).to eq(36)
   end
 end

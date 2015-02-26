@@ -48,3 +48,35 @@ class Token::Asterisk
     print "<operator, *>"
   end
 end
+
+class Token::LParen
+  attr_reader :value
+
+  def initialize(value)
+    @value = value
+  end
+
+  def to_s
+    value
+  end
+
+  def print_token
+    print "<LParen, (>"
+  end
+end
+
+class Token::RParen
+  attr_reader :value
+
+  def initialize(value)
+    @value = value
+  end
+
+  def to_s
+    value
+  end
+
+  def print_token
+    print "<RParen, )>"
+  end
+end

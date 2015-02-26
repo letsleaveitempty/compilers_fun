@@ -28,6 +28,8 @@ class Parser
         move_one_token_forward
         operand2 = expression
         current_result = AST::Addition.new([current_result, operand2])
+      when Token::RParen
+        break
       end
     end
 
@@ -36,6 +38,10 @@ class Parser
 
   def number
     case @token
+    when Token::LParen
+      move_parenthesis
+      value = expression
+      move_parenthesis
     when Token::Number
       value = AST::Number.new(@token.value)
     else
@@ -45,12 +51,13 @@ class Parser
     value
   end
 
+  def move_parenthesis
+    @token = @next_token
+    @next_token = lexer.next_token
+  end
+
   def move_one_token_forward
     @token      = lexer.next_token
     @next_token = lexer.next_token
   end
 end
-# 
-# puts "Enter expression:\n"
-# p = Parser.new(gets)
-# puts p.parse

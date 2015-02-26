@@ -48,3 +48,19 @@ class AST::Multiplication
     operands[0].execute * operands[1].execute
   end
 end
+
+class AST::LParen
+  attr_reader :value
+
+  def initialize(value)
+    @value = value
+  end
+end
+
+class AST::RParen
+  attr_reader :value
+
+  def initialize(value)
+    @value = value
+  end
+end
