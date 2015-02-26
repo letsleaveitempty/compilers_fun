@@ -27,11 +27,13 @@ class Parser
     when Token::Asterisk
       move_one_token_forward
       operand2 = number
-      result = AST::Multiplication.new([operand1, operand2])
+      result   = AST::Multiplication.new([operand1, operand2])
     when Token::Plus
       move_one_token_forward
       operand2 = expression
       result   = AST::Addition.new([operand1, operand2])
+    when nil
+      result   = operand1
     end
 
     result
@@ -53,7 +55,3 @@ class Parser
     @next_token = lexer.next_token
   end
 end
-
-puts "Enter expression:\n"
-p = Parser.new(gets)
-puts p.parse
