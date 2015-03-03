@@ -4,7 +4,7 @@ loop do
   puts "\n*************************************\n"
   puts "Enter your math operation:"
   string = gets
-  lexer = Lexer.new(string)
+  lexer  = Lexer.new(string)
 
   puts "\nTokens and its values:"
   lexer.print_tokens
