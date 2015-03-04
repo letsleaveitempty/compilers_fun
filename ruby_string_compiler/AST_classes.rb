@@ -15,6 +15,12 @@ class AST::Number
   def execute
     value.to_i
   end
+
+  def assembly(assembler)
+    register = assembler.next_register
+    assembler.add_instructions("li $t#{register} #{@value}")
+    "$t#{register}"
+  end
 end
 
 class AST::Addition
@@ -31,6 +37,12 @@ class AST::Addition
   def execute
     operands[0].execute + operands[1].execute
   end
+
+  def assembly(assembler)
+    register = assembler.next_register
+    assembler.add_instructions("add $t#{register} #{operands[0].assembly(assembler)} #{operands[1].assembly(assembler)}")
+    "$t#{register}"
+  end
 end
 
 class AST::Multiplication
@@ -46,6 +58,12 @@ class AST::Multiplication
 
   def execute
     operands[0].execute * operands[1].execute
+  end
+
+  def assembly(assembler)
+    register = assembler.next_register
+    assembler.add_instructions("mul $t#{register} #{operands[0].assembly(assembler)} #{operands[1].assembly(assembler)}")
+    "$t#{register}"
   end
 end
 
