@@ -3,10 +3,8 @@
 .globl main
 
 	main:
-	li $t2 9
-	li $t4 3
-	li $t5 2
-	mul $t3 $t4 $t5
+	li $t2 3
+	li $t3 4
 	add $t1 $t2 $t3
 
 	move $a0 $t1
