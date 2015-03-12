@@ -11,4 +11,4 @@ If you want to see how it works in action:
   7. assmebly code includes printing out the result in the console of the simulator
 
 
-### read more on my blog: www.letsleaveitmepty.com
+### read more on my blog: www.letsleaveitempty.com
