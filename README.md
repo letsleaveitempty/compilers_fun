@@ -9,3 +9,6 @@ If you want to see how it works in action:
   5. assmebly code is being overwritten each time in instructions.asm
   6. to see how it is being executed, download qtSpim simulator for MIPS processor (http://sourceforge.net/projects/spimsimulator/files/) and upload instructions.asm file directly there
   7. assmebly code includes printing out the result in the console of the simulator
+
+
+### read more on my blog: www.letsleaveitmepty.com
